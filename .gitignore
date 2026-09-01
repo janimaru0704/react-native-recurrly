@@ -47,3 +47,6 @@ example
 
 # Nativewind
 nativewind-env.d.ts
+
+# Env File
+.env
