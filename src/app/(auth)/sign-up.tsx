@@ -177,90 +177,92 @@ const SignUp = () => {
                         {/* Branding */}
                         <View className="auth-brand-block">
                             <View className="auth-logo-wrap">
-                                <Text className="auth-logo-mark">R</Text>
+                                <View className="auth-logo-mark">
+                                    <Text className="auth-logo-mark-text">R</Text>
+                                </View>
+                                <View>
+                                    <Text className="auth-wordmark">Recurrly</Text>
+                                    <Text className="auth-wordmark-sub">SUBSCRIPTIONS</Text>
+                                </View>
                             </View>
-                            <View>
-                                <Text className="auth-wordmark">Recurrly</Text>
-                                <Text className="auth-wordmark-sub">SUBSCRIPTIONS</Text>
+                            <Text className="auth-title">Create your account</Text>
+                            <Text className="auth-subtitle">
+                                Start tracking your subscriptions and never miss a payment
+                            </Text>
+                        </View>
+
+                        {/* Sign-up Form */}
+                        <View className="auth-card">
+                            <View className="auth-form">
+                                <View className="auth-field">
+                                    <Text className="auth-label">Email Address</Text>
+                                    <TextInput
+                                        className={`auth-input ${emailTouched && !emailValid && "auth-input-error"}`}
+                                        autoCapitalize="none"
+                                        value={emailAddress}
+                                        placeholder="name@example.com"
+                                        placeholderTextColor="rgba(0, 0, 0, 0.4)"
+                                        onChangeText={setEmailAddress}
+                                        onBlur={() => setEmailTouched(true)}
+                                        keyboardType="email-address"
+                                        autoComplete="email"
+                                    />
+                                    {emailTouched && !emailValid && (
+                                        <Text className="auth-error">Please enter a valid email address</Text>
+                                    )}
+                                    {errors.fields.emailAddress && (
+                                        <Text className="auth-error">{errors.fields.emailAddress.message}</Text>
+                                    )}
+                                </View>
+
+                                <View className="auth-field">
+                                    <Text className="auth-label">Password</Text>
+                                    <TextInput
+                                        className={`auth-input ${passwordTouched && !passwordValid && "auth-input-error"}`}
+                                        value={password}
+                                        placeholder="Create a strong password"
+                                        placeholderTextColor="rgba(0, 0, 0, 0.4)"
+                                        secureTextEntry
+                                        onChangeText={setPassword}
+                                        onBlur={() => setPasswordTouched(false)}
+                                        autoComplete="password-new"
+                                    />
+                                    {passwordTouched && !passwordValid && (
+                                        <Text className="auth-error">Password must be at least 8 characters</Text>
+                                    )}
+                                    {errors.fields.password && (
+                                        <Text className="auth-error">{errors.fields.password.message}</Text>
+                                    )}
+                                    {!passwordTouched && (
+                                        <Text className="auth-helper">Minimum 8 characters required</Text>
+                                    )}
+                                </View>
+
+                                <Pressable
+                                    className={`auth-button ${(!formValid || fetchStatus === "fetching") && "auth-button-disabled"}`}
+                                    onPress={handleSubmit}
+                                    disabled={!formValid || fetchStatus === "fetching"}
+                                >
+                                    <Text className="auth-button-text">
+                                        {fetchStatus === "fetching" ? "Creating Account..." : "Create Account"}
+                                    </Text>
+                                </Pressable>
                             </View>
                         </View>
-                        <Text className="auth-title">Create your account</Text>
-                        <Text className="auth-subtitle">
-                            Start tracking your subscriptions and never miss a payment
-                        </Text>
-                    </View>
 
-                    {/* Sign-up Form */}
-                    <View className="auth-card">
-                        <View className="auth-form">
-                            <View className="auth-field">
-                                <Text className="auth-label">Email Address</Text>
-                                <TextInput
-                                    className={`auth-input ${emailTouched && !emailValid && "auth-input-error"}`}
-                                    autoCapitalize="none"
-                                    value={emailAddress}
-                                    placeholder="name@example.com"
-                                    placeholderTextColor="rgba(0, 0, 0, 0.4)"
-                                    onChangeText={setEmailAddress}
-                                    onBlur={() => setEmailTouched(true)}
-                                    keyboardType="email-address"
-                                    autoComplete="email"
-                                />
-                                {emailTouched && !emailValid && (
-                                    <Text className="auth-error">Please enter a valid email address</Text>
-                                )}
-                                {errors.fields.emailAddress && (
-                                    <Text className="auth-error">{errors.fields.emailAddress.message}</Text>
-                                )}
-                            </View>
-
-                            <View className="auth-field">
-                                <Text className="auth-label">Password</Text>
-                                <TextInput
-                                    className={`auth-input ${passwordTouched && !passwordValid && "auth-input-error"}`}
-                                    value={password}
-                                    placeholder="Create a strong password"
-                                    placeholderTextColor="rgba(0, 0, 0, 0.4)"
-                                    secureTextEntry
-                                    onChangeText={setPassword}
-                                    onBlur={() => setPasswordTouched(false)}
-                                    autoComplete="password-new"
-                                />
-                                {passwordTouched && !passwordValid && (
-                                    <Text className="auth-error">Password must be at least 8 characters</Text>
-                                )}
-                                {errors.fields.password && (
-                                    <Text className="auth-error">{errors.fields.password.message}</Text>
-                                )}
-                                {!passwordTouched && (
-                                    <Text className="auth-helper">Minimum 8 characters required</Text>
-                                )}
-                            </View>
-
-                            <Pressable
-                                className={`auth-button ${(!formValid || fetchStatus === "fetching") && "auth-button-disabled"}`}
-                                onPress={handleSubmit}
-                                disabled={!formValid || fetchStatus === "fetching"}
-                            >
-                                <Text className="auth-button-text">
-                                    {fetchStatus === "fetching" ? "Creating Account..." : "Create Account"}
-                                </Text>
-                            </Pressable>
+                        {/* Sign-in Link */}
+                        <View className="auth-link-row">
+                            <Text className="auth-link-copy">Already have an account?</Text>
+                            <Link href="/(auth)/sign-in" asChild>
+                                <Pressable>
+                                    <Text className="auth-link">Sign In</Text>
+                                </Pressable>
+                            </Link>
                         </View>
-                    </View>
 
-                    {/* Sign-in Link */}
-                    <View className="auth-link-row">
-                        <Text className="auth-link-copy">Already have an account?</Text>
-                        <Link href="/(auth)/sign-in" asChild>
-                            <Pressable>
-                                <Text className="auth-link">Sign In</Text>
-                            </Pressable>
-                        </Link>
+                        {/* Required for Clerk's bot protection */}
+                        <View nativeID="clerk-captcha"/>
                     </View>
-
-                    {/* Required for Clerk's bot protection */}
-                    <View nativeID="clerk-captcha"/>
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>
