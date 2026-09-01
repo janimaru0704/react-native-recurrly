@@ -64,12 +64,14 @@ const SignIn = () => {
             console.log("MFA required");
         } else if (signIn.status === "needs_client_trust") {
             // Send email code for client trust verification
-            const emailCodeFactor = signIn.supportedSecondFactors.find(
+            const emailCodeFactor = signIn.supportedSecondFactors?.find(
                 (factor) => factor.strategy === "email_code"
             );
 
             if (emailCodeFactor) {
                 await signIn.mfa.sendEmailCode();
+            } else {
+                console.error("No email_code factor available for client trust");
             }
         } else {
             console.error("Sign-in attempt not complete:", signIn);

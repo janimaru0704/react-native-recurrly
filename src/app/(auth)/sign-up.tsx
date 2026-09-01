@@ -22,8 +22,8 @@ const SignUp = () => {
 
     // Client-side validation
     const emailValid = emailAddress.length === 0 || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress);
-    const passwordValid = password.length === 0 || password.length >= 8;
-    const formValid = emailAddress.length > 0 && password.length >= 8 && emailValid;
+    const passwordValid = password.length === 0 || password.length >= 15;
+    const formValid = emailAddress.length > 0 && password.length >= 15 && emailValid;
 
     const handleSubmit = async () => {
         if (!formValid) return;
@@ -39,8 +39,10 @@ const SignUp = () => {
         }
 
         // Send verification email
-        if (!error) {
-            await signUp.verifications.sendEmailCode();
+        const {error: sendError} = await signUp.verifications.sendEmailCode();
+
+        if (sendError) {
+            console.error("Failed to send the verification code");
         }
     };
 
@@ -84,8 +86,8 @@ const SignUp = () => {
     // Show verification screen if email needs verification
     if (
         signUp.status === "missing_requirements" &&
-        signUp.unverifiedFields.includes("email_address") &&
-        signUp.missingFields.length === 0
+        signUp.unverifiedFields?.includes("email_address") &&
+        (signUp.missingFields?.length ?? 0) === 0
     ) {
         return (
             <SafeAreaView className="auth-safe-area">
@@ -224,7 +226,7 @@ const SignUp = () => {
                                         placeholderTextColor="rgba(0, 0, 0, 0.4)"
                                         secureTextEntry
                                         onChangeText={setPassword}
-                                        onBlur={() => setPasswordTouched(false)}
+                                        onBlur={() => setPasswordTouched(true)}
                                         autoComplete="password-new"
                                     />
                                     {passwordTouched && !passwordValid && (
